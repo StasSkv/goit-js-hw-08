@@ -64,10 +64,12 @@ const images = [
   },
 ];
 
-const galleryList = document.querySelector(".gallery");
-const link = document.querySelectorAll(".gallery-link");
-const item = document.querySelectorAll(".gallery-item");
-const img = document.querySelectorAll(".gallery-image");
+const refs = {
+  galleryList: document.querySelector(".gallery"),
+  link: document.querySelectorAll(".gallery-link"),
+  item: document.querySelectorAll(".gallery-item"),
+  img: document.querySelectorAll(".gallery-image"),
+};
 
 const elements = images
   .map(
@@ -86,18 +88,17 @@ const elements = images
   )
   .join("");
 
-galleryList.insertAdjacentHTML("afterbegin", elements);
+refs.galleryList.insertAdjacentHTML("afterbegin", elements);
 
-galleryList.addEventListener("click", (event) => {
-  if (event.target.classList.contains("gallery-image")) {
-    event.preventDefault();
+refs.galleryList.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) return;
 
-    const instance = basicLightbox
-      .create(
-        `
+  event.preventDefault();
+  const instance = basicLightbox
+    .create(
+      `
 		<img width="1400" height="900" src="${event.target.dataset.source}">
 	`
-      )
-      .show();
-  }
+    )
+    .show();
 });
